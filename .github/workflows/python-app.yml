@@ -25,3 +25,8 @@ jobs:
       run: pylint main.py
     - name: Test with pytest
       run: pytest test.py
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@main
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
