@@ -24,7 +24,12 @@ jobs:
     - name: Lint
       run: pylint main.py
     - name: Test with pytest
-      run: pytest test.py
+      run: py.test --junitxml results.xml test.py
+    - name: Upload Test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: results.xml
+        path: results.xml
   
   
   SonarQube:
