@@ -2,14 +2,13 @@ name: test dynamic envs
 on:
   pull_request:
     branches: [dev, main, prod]
-
+env:
+  test_env: ${{ vars.TEST_VAR }}
 
 jobs:
   prepare:
     runs-on: ubuntu-latest
     environment: uat
-    env:
-      test_env: ${{ vars.TEST_VAR }}
     steps:
       - id: set_environment
         run: echo $test_env
