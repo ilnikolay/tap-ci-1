@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: uat
     env:
-      test_env: vars.TEST_VAR
+      test_env: ${{ vars.TEST_VAR }}
     steps:
       - id: set_environment
         run: echo $test_env
