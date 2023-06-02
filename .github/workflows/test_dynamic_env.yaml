@@ -7,9 +7,9 @@ on:
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    environment: ${{ github.base_ref == 'main' && 'uat' || github.base_ref }}
+    environment: uat
     env:
-      test_env: alalalala
+      test_env: vars.TEST_VAR
     steps:
       - id: set_environment
         run: echo $test_env
