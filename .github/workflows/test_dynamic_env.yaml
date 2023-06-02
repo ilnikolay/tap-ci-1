@@ -7,7 +7,7 @@ on:
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    environment: ${{ github.base_ref == 'main' && uat || github.base_ref }}
+    environment: ${{ github.base_ref == 'main' && 'uat' || github.base_ref }}
     steps:
       - id: set_environment
         run: echo ${{ jobs.prepare.environment }}
