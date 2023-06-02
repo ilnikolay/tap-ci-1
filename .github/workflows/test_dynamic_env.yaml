@@ -8,6 +8,8 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     environment: ${{ github.base_ref == 'main' && 'uat' || github.base_ref }}
+    env:
+      test_env: ${{ jobs.prepare.environment }}
     steps:
       - id: set_environment
-        run: echo ${{ jobs.prepare.environment }}
+        run: echo $test_env
