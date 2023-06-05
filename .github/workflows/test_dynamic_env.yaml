@@ -4,6 +4,7 @@ on:
     branches: [dev, main, prod]
 env:
   test_env: ${{ vars.TEST_VAR }}
+  featbranch: ${{ github.head_ref }}
 
 jobs:
   prepare:
@@ -11,4 +12,4 @@ jobs:
     environment: ${{ github.base_ref == 'main' && 'uat' || github.base_ref }}
     steps:
       - id: set_environment
-        run: echo $test_env
+        run: echo $featbranch
