@@ -7,6 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: set_environment
-        run: echo ${{ github.event_name }}
+        env:
+         GITHUB_EVENT_NAME: ${{ toJson(github.event_name) }}
+        run: echo "$GITHUB_EVENT_NAME"
       - id: set
-        run: echo ${{ github.event }}
+        env:
+         GITHUB_EVENT: ${{ toJson(github.event) }}
+        run: echo "$GITHUB_EVENT"
