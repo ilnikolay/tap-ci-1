@@ -1,14 +1,12 @@
 name: test dynamic envs
 on:
-  pull_request:
-    branches: [dev, main, prod]
-env:
-  test_env: ${{ vars.TEST_VAR }}
+   workflow_call:
 
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    environment: ${{ github.base_ref == 'main' && 'uat' || github.base_ref }}
     steps:
       - id: set_environment
-        run: echo $test_env
+        run: echo ${{ github.event_name }}
+      - id: set
+        run: echo ${{ github.event }}
