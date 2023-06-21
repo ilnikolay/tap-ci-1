@@ -1,14 +1,21 @@
 name: test dynamic envs
 on:
    workflow_call:
-
-env:
-   ENVIRONMENT_NAME: ${{ inputs.environment || 'dev' }}
+   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'ENV'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - uat
 
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    environment: ${{ env.ENVIRONMENT_NAME }}
+    environment: ${{ inputs.environment || 'uat' }}
     steps:
       - id: set_environment
         env:
