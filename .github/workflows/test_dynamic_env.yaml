@@ -3,12 +3,12 @@ on:
    workflow_call:
 
 env:
-   ENVIRONMENT_NAME: ${{ inputs.environment || 'test' }}
+   ENVIRONMENT_NAME: ${{ inputs.environment || 'dev' }}
 
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    environment: 'dev'
+    environment: ${{ env.ENVIRONMENT_NAME }}
     steps:
       - id: set_environment
         env:
@@ -19,4 +19,4 @@ jobs:
          GITHUB_EVENT: ${{ toJson(github.event) }}
         run: echo "$GITHUB_EVENT"
       - id: setaaa
-        run: echo "$ENVIRONMENT_NAME"
+        run: echo "$TEST_VAR"
