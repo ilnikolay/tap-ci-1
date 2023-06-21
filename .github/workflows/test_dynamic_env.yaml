@@ -2,6 +2,9 @@ name: test dynamic envs
 on:
    workflow_call:
 
+env:
+   ENVIRONMENT_NAME: ${{ inputs.environment || 'test' }}
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
@@ -16,4 +19,4 @@ jobs:
          GITHUB_EVENT: ${{ toJson(github.event) }}
         run: echo "$GITHUB_EVENT"
       - id: setaaa
-        run: echo ${{ jobs.prepare.environment }}
+        run: echo "$ENVIRONMENT_NAME"
