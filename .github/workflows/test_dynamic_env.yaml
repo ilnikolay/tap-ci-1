@@ -5,6 +5,7 @@ on:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    environment: 'dev'
     steps:
       - id: set_environment
         env:
@@ -14,3 +15,5 @@ jobs:
         env:
          GITHUB_EVENT: ${{ toJson(github.event) }}
         run: echo "$GITHUB_EVENT"
+      - id: setaaa
+        run: echo ${{ jobs.prepare.environment }}
