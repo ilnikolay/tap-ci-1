@@ -26,4 +26,4 @@ jobs:
          GITHUB_EVENT: ${{ toJson(github.event) }}
         run: echo "$GITHUB_EVENT"
       - id: setaaa
-        run: echo "$TEST_VAR"
+        run: echo ${{ vars.TEST_VAR }}
