@@ -1,6 +1,11 @@
 name: test dynamic envs
 on:
    workflow_call:
+    inputs:
+      environment:
+        type: string
+        description: Environment to deploy to
+        required: true
    workflow_dispatch:
     inputs:
       environment:
@@ -15,7 +20,7 @@ on:
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment || 'uat' }}
+    environment: ${{ inputs.environment }}
     steps:
       - id: set_environment
         env:
