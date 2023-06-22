@@ -1,14 +1,38 @@
 name: test dynamic envs
 on:
-  pull_request:
-    branches: [dev, main, prod]
-env:
-  test_env: ${{ vars.TEST_VAR }}
+   workflow_call:
+    inputs:
+      environment:
+        type: string
+        description: Environment to deploy to
+        required: true
+   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'ENV'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - uat
 
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    environment: ${{ github.base_ref == 'main' && 'uat' || github.base_ref }}
+    environment: ${{ inputs.environment }}
     steps:
       - id: set_environment
-        run: echo $test_env
+        env:
+         GITHUB_EVENT_NAME: ${{ toJson(github.event_name) }}
+        run: echo "$GITHUB_EVENT_NAME"
+      - id: set
+        env:
+         GITHUB_EVENT: ${{ toJson(github.event) }}
+        run: echo "$GITHUB_EVENT"
+      - id: setaaa
+        run: echo ${{ vars.TEST_VAR }}
+      - id: setbbbbb
+        env:
+         RUNNERS: ${{ fromJson(format("['self-hosted', 'aws-{0}']", inputs.environment)) }}
+        run: echo "$RUNNERS"
