@@ -34,5 +34,5 @@ jobs:
         run: echo ${{ vars.TEST_VAR }}
       - id: setbbbbb
         env:
-         RUNNERS: ${{ fromJson(format('[self-hosted, aws-{0}]', inputs.environment)) }}
+         RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
         run: echo "$RUNNERS"
