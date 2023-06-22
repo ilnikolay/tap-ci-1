@@ -30,6 +30,7 @@ jobs:
           echo "environment=${ENVIRONMENT}" >> $GITHUB_OUTPUT
           
   terraform:
+    needs: [prepare]
     uses: ./.github/workflows/test_dynamic_env.yaml
     with:
       environment: ${{ needs.prepare.outputs.environment }}
