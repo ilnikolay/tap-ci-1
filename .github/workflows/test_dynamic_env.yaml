@@ -6,6 +6,10 @@ on:
         type: string
         description: Environment to deploy to
         required: true
+      masking:
+        type: string
+        description: Trigger to run masking policies jobs
+        required: false
    workflow_dispatch:
     inputs:
       environment:
@@ -20,13 +24,14 @@ on:
 jobs:
   linting:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ inputs.masking == 'true' }}
     steps:
       - name: Checkout current GitHub Actions workflow repository
         uses: actions/checkout@v3
       - id: lint
         run: echo "Linting"
   testing:
+    if: ${{ inputs.masking != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current GitHub Actions workflow repository
@@ -36,8 +41,8 @@ jobs:
  
   prepare:
     runs-on: ubuntu-latest
-    needs: [linting, testing]
-    if: ${{ success() || (needs.testing.result == 'success' && needs.linting.result == 'skipped') }}
+    needs: [linting]
+    if: ${{ success() }}
     environment: ${{ inputs.environment }}
     steps:
       - id: set_environment
