@@ -39,7 +39,6 @@ jobs:
 
   second-job:
     runs-on: ubuntu-latest
-    if: false
     steps:
       - id: lint
         run: echo "Linting"
