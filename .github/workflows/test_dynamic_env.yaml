@@ -24,14 +24,14 @@ on:
 jobs:
   linting:
     runs-on: ubuntu-latest
-    if: ${{ inputs.masking == 'true' }}
+    if: ${{ inputs.masking == 'start' }}
     steps:
       - name: Checkout current GitHub Actions workflow repository
         uses: actions/checkout@v3
       - id: lint
         run: echo "Linting"
   testing:
-    if: ${{ inputs.masking != 'true' }}
+    if: ${{ inputs.masking != 'start' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current GitHub Actions workflow repository
