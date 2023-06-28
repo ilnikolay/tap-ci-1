@@ -34,5 +34,5 @@ jobs:
     uses: ./.github/workflows/test_dynamic_env.yaml
     with:
       environment: ${{ needs.prepare.outputs.environment }}
-      masking: true
+      masking: start
     secrets: inherit
