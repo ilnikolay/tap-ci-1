@@ -31,7 +31,7 @@ jobs:
         run: |
           TARGET_BRANCH=${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name}}
           if [ "$TARGET_BRANCH" = "main" ]; then
-            ENVIRONMENT="[uat]"
+            ENVIRONMENT="dev,uat"
           else
             ENVIRONMENT="${TARGET_BRANCH}"
           fi
