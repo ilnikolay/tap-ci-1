@@ -37,15 +37,8 @@ jobs:
           fi
           echo "environment=${ENVIRONMENT}" >> $GITHUB_OUTPUT
 
-  second-job:
-    runs-on: ubuntu-latest
-    if: false
-    steps:
-      - id: lint
-        run: echo "Linting"
-
   terraform:
-    needs: [prepare, second-job]
+    needs: [prepare]
     if: ${{ needs.prepare.outputs.terraform == 'true' }}
     uses: ./.github/workflows/test_dynamic_env.yaml
     with:
