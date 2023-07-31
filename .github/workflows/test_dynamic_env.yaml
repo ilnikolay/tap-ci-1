@@ -42,7 +42,7 @@ jobs:
   prepare:
     strategy:
       matrix:
-        env: [ inputs.environment ]
+        env: [ '${{ inputs.environment }}' ]
     runs-on: ubuntu-latest
     needs: [linting]
     if: ${{ success() }}
