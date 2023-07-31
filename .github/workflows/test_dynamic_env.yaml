@@ -41,7 +41,8 @@ jobs:
  
   prepare:
     strategy:
-      matrix: ${{ fromJson(inputs.environment) }}
+      matrix:
+         env: ${{ fromJson(inputs.environment) }}
     runs-on: ubuntu-latest
     needs: [linting]
     if: ${{ success() }}
