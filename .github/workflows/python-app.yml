@@ -42,7 +42,6 @@ jobs:
     if: ${{ needs.prepare.outputs.terraform == 'true' }}
     uses: ./.github/workflows/test_dynamic_env.yaml
     with:
-      #environment: ${{ needs.prepare.outputs.environment }}
-      environment: uat
+      environment: ${{ needs.prepare.outputs.environment }}
       masking: true
     secrets: inherit
