@@ -49,3 +49,14 @@ jobs:
       masking: true
     secrets: inherit
     
+  test_needs:
+    strategy:
+      matrix:
+          env: ${{ fromJson(needs.prepare.outputs.environment) }}
+    needs: [prepare, terraform]
+    if: ${{ needs.prepare.outputs.terraform == 'true' }}
+    uses: ./.github/workflows/test_needs.yaml
+    with:
+      environment: ${{ matrix.env }}
+      masking: true
+    secrets: inherit
