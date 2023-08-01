@@ -40,13 +40,13 @@ jobs:
         run: echo "Testing"
  
   prepare:
-    # strategy:
-    #   matrix:
-    #      env: ${{ fromJson(github.base_ref == 'uat' && '[''uat'',''prod'']' || '[''dev'']') }}
+    strategy:
+      matrix:
+         env: ${{ fromJson(inputs.environment) }}
     runs-on: ubuntu-latest
     needs: [linting]
     if: ${{ success() }}
-    environment: ${{ inputs.environment }}
+    environment: ${{ matrix.env }}
     steps:
       - id: set_environment
         env:
@@ -60,5 +60,5 @@ jobs:
         run: echo ${{ vars.TEST_VAR }}
       - id: setbbbbb
         env:
-         RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
+         RUNNERS: ${{ format('[self-hosted, aws-{0}]', matrix.env) }}
         run: echo "$RUNNERS"
