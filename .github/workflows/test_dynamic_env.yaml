@@ -42,7 +42,7 @@ jobs:
   prepare:
     strategy:
       matrix:
-         env: ${{ fromJson(inputs.environment) }}
+         env: ${{ fromJson(github.base_ref == 'main' && '[''uat'',''prod'']' || '[''dev'']') }}
     runs-on: ubuntu-latest
     needs: [linting]
     if: ${{ success() }}
