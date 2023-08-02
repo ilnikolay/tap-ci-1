@@ -48,7 +48,7 @@ jobs:
     
   snowflows:
     needs: [terraform]
-    if: ${{ github.base_ref == 'main' || github.ref_name == 'main' }}
+    if: ${{ github.base_ref == 'dev' || github.ref_name == 'dev' }}
     uses: ./.github/workflows/test_needs.yaml
     with:
       environment: 'uat'
