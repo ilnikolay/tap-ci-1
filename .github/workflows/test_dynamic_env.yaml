@@ -22,7 +22,7 @@ on:
         - uat
 
 concurrency:
-  group: uat_env
+  group: ${{ github.ref_name }} 
 
 jobs:
   linting:
