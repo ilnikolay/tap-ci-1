@@ -31,31 +31,16 @@ jobs:
         run: |
           TARGET_BRANCH=${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name}}
           if [ "$TARGET_BRANCH" = "main" ]; then
-            ENVIRONMENT="['dev','uat']"
+            ENVIRONMENT="uat"
           else
             ENVIRONMENT="${TARGET_BRANCH}"
           fi
           echo "environment=${ENVIRONMENT}" >> $GITHUB_OUTPUT
 
   terraform:
-    # strategy:
-    #   matrix:
-    #      env: ${{ fromJson(needs.prepare.outputs.environment) }}
     needs: [prepare]
     if: ${{ needs.prepare.outputs.terraform == 'true' }}
     uses: ./.github/workflows/test_dynamic_env.yaml
-    with:
-      environment: ${{ needs.prepare.outputs.environment }}
-      masking: true
-    secrets: inherit
-    
-  test_needs:
-    # strategy:
-    #   matrix:
-    #       env: ${{ fromJson(needs.prepare.outputs.environment) }}
-    needs: [prepare, terraform]
-    if: ${{ needs.prepare.outputs.terraform == 'true' }}
-    uses: ./.github/workflows/test_needs.yaml
     with:
       environment: ${{ needs.prepare.outputs.environment }}
       masking: true
