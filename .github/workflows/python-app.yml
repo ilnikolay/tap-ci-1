@@ -14,10 +14,18 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       environment: ${{ steps.set_runners_and_environment.outputs.environment }}
+      terraform: ${{ steps.filter.outputs.terraform }}
     steps:
       - name: Checkout current GitHub Actions workflow repository
         uses: actions/checkout@v3
-
+      - name: Path Filter
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          base: ${{ github.base_ref || github.ref }}
+          filters: |
+            terraform:
+              - './.github/**'
       - name: Setup runners and Environment
         id: set_runners_and_environment
         run: |
@@ -28,10 +36,12 @@ jobs:
             ENVIRONMENT="${TARGET_BRANCH}"
           fi
           echo "environment=${ENVIRONMENT}" >> $GITHUB_OUTPUT
-          
+
   terraform:
     needs: [prepare]
+    if: ${{ needs.prepare.outputs.terraform == 'true' }}
     uses: ./.github/workflows/test_dynamic_env.yaml
     with:
       environment: ${{ needs.prepare.outputs.environment }}
+      masking: true
     secrets: inherit
