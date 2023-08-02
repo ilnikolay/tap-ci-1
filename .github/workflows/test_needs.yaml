@@ -41,3 +41,4 @@ jobs:
         env:
          RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
         run: echo "$RUNNERS"
+
