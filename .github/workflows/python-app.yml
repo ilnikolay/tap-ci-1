@@ -45,4 +45,13 @@ jobs:
       environment: ${{ needs.prepare.outputs.environment }}
       masking: true
     secrets: inherit
+    
+  snowflows:
+    needs: [terraform]
+    if: ${{ github.base_ref == 'dev' || github.ref_name == 'dev' }}
+    uses: ./.github/workflows/test_needs.yaml
+    with:
+      environment: 'uat'
+      masking: true
+    secrets: inherit
 
