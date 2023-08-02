@@ -27,6 +27,7 @@ concurrency:
 jobs:
   linting:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     if: ${{ inputs.masking }}
     steps:
       - name: Checkout current GitHub Actions workflow repository
