@@ -45,3 +45,4 @@ jobs:
       environment: ${{ needs.prepare.outputs.environment }}
       masking: true
     secrets: inherit
+
