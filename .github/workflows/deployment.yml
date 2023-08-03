@@ -84,7 +84,7 @@ jobs:
     secrets: inherit
     
   folder1-prod:
-    if: ${{ github.ref_name == 'main' }}
+    if: ${{ github.base_ref == 'main' || github.ref_name == 'main' }}
     needs: [folder1]
     uses: ./.github/workflows/folder1.yaml
     with:
@@ -92,7 +92,7 @@ jobs:
     secrets: inherit
 
   folder2-prod:
-    if: ${{ github.ref_name == 'main'}}
+    if: ${{ github.base_ref == 'main' || github.ref_name == 'main'}}
     needs: [folder2]
     uses: ./.github/workflows/folder2.yaml
     with:
@@ -100,7 +100,7 @@ jobs:
     secrets: inherit
 
   folder3-prod:
-    if: ${{ github.ref_name == 'main'}}
+    if: ${{ github.base_ref == 'main' || github.ref_name == 'main' }}
     needs: [folder3]
     uses: ./.github/workflows/folder3.yaml
     with:
