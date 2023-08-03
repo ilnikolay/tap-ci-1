@@ -71,7 +71,7 @@ jobs:
 
   folder2:
     needs: [prepare, testing, folder1]
-    if: ${{ needs.prepare.outputs.folder2 == 'true' && (success() || needs.testing.result == 'skipped' || (needs.testing.result == 'success' && needs.folder1.result == 'skipped'))  }}
+    if: ${{ needs.prepare.outputs.folder2 == 'true' && (success() || (needs.testing.result == 'skipped' && needs.linting.result == 'skipped') || (needs.testing.result == 'success' && needs.folder1.result == 'skipped'))  }}
     uses: ./.github/workflows/folder2.yaml
     with:
       environment: ${{ needs.prepare.outputs.environment }}
