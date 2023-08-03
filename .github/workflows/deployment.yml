@@ -4,10 +4,12 @@
 name: Calculator
 on:
   push:
-    branches: [dev, main, prod]
+    branches: [dev, main]
   pull_request:
-    branches: [dev, main, prod]
+    branches: [dev, main]
 
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref_name }}'
 
 jobs:
   prepare:
@@ -58,8 +60,6 @@ jobs:
         run: echo "Testing!"
 
   folder1:
-    concurrency:
-      group: '${{ github.job }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
     needs: [prepare, linting, testing]
     if: ${{ needs.prepare.outputs.folder1 == 'true' }}
     uses: ./.github/workflows/folder1.yaml
@@ -68,8 +68,6 @@ jobs:
     secrets: inherit
 
   folder2:
-    concurrency:
-      group: '${{ github.job }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
     needs: [prepare, testing, folder1]
     if: ${{ needs.prepare.outputs.folder2 == 'true' && (success() || needs.testing.result == 'skipped' || (needs.testing.result == 'success' && needs.folder1.result == 'skipped'))  }}
     uses: ./.github/workflows/folder2.yaml
@@ -78,8 +76,6 @@ jobs:
     secrets: inherit
 
   folder3:
-    concurrency:
-      group: '${{ github.job }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
     needs: [prepare, linting, testing]
     if: ${{ needs.prepare.outputs.folder3 == 'true' }}
     uses: ./.github/workflows/folder3.yaml
@@ -88,9 +84,7 @@ jobs:
     secrets: inherit
     
   folder1-prod:
-    if: ${{ github.ref_name }}
-    concurrency:
-      group: '${{ github.job }}-prod-${{ github.ref_name }}'
+    if: ${{ github.ref_name == 'main' }}
     needs: [folder1]
     uses: ./.github/workflows/folder1.yaml
     with:
@@ -98,9 +92,7 @@ jobs:
     secrets: inherit
 
   folder2-prod:
-    if: ${{ github.ref_name }}
-    concurrency:
-      group: '${{ github.job }}-prod-${{ github.ref_name }}'
+    if: ${{ github.ref_name == 'main'}}
     needs: [folder2]
     uses: ./.github/workflows/folder2.yaml
     with:
@@ -108,9 +100,7 @@ jobs:
     secrets: inherit
 
   folder3-prod:
-    if: ${{ github.ref_name }}
-    concurrency:
-      group: '${{ github.job }}-prod-${{ github.ref_name }}'
+    if: ${{ github.ref_name == 'main'}}
     needs: [folder3]
     uses: ./.github/workflows/folder3.yaml
     with:
