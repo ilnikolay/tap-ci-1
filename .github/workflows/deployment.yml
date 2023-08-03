@@ -92,7 +92,7 @@ jobs:
     secrets: inherit
 
   folder2-prod:
-    if: ${{ github.base_ref == 'main' || github.ref_name == 'main'}}
+    if: ${{ (github.base_ref == 'main' || github.ref_name == 'main') && (success() || needs.testing.result == 'skipped' || (needs.testing.result == 'success' && needs.folder1.result == 'skipped')) }}
     needs: [folder2]
     uses: ./.github/workflows/folder2.yaml
     with:
