@@ -30,8 +30,8 @@ jobs:
               - './folder1/**'
             folder2:
               - './folder2/**
-            folder2:
-              - './folder2/**
+            folder3:
+              - './folder3/**
       - name: Setup runners and Environment
         id: set_runners_and_environment
         run: |
