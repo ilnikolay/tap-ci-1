@@ -1,4 +1,4 @@
-name: test dynamic envs
+name: folder1 deploy
 on:
    workflow_call:
     inputs:
@@ -17,22 +17,13 @@ on:
         - dev
         - uat
 
+
 jobs:
-  prepare:
+  folder1_deploy:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - id: set_environment
-        env:
-         GITHUB_EVENT_NAME: ${{ toJson(github.event_name) }}
-        run: echo "$GITHUB_EVENT_NAME"
-      - id: set
-        env:
-         GITHUB_EVENT: ${{ toJson(github.event) }}
-        run: echo "$GITHUB_EVENT"
-      - id: setaaa
-        run: echo ${{ vars.TEST_VAR }}
-      - id: setbbbbb
+      - id: Folder1-Deploy
         env:
          RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
         run: echo "$RUNNERS"
