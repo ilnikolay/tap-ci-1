@@ -61,7 +61,7 @@ jobs:
     concurrency:
       group: '${{ github.workflow }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
     needs: [prepare, linting, testing]
-    if: ${{ needs.prepare.outputs.folder1 == 'true' && success() }}
+    if: ${{ needs.prepare.outputs.folder1 == 'true' }}
     uses: ./.github/workflows/folder1.yaml
     with:
       environment: ${{ needs.prepare.outputs.environment }}
