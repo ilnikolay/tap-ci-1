@@ -1,0 +1,23 @@
+name: Folder3 deploy
+on:
+   workflow_call:
+    inputs:
+      environment:
+        type: string
+        description: Environment to deploy to
+        required: true
+      masking:
+        type: boolean
+        description: Trigger to run masking policies jobs
+        required: false
+
+jobs:
+  snowflow:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment}}
+    steps:
+      - id: Folder3-Deploy
+        env:
+         RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
+        run: echo "$RUNNERS"
+

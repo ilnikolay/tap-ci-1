@@ -1,0 +1,118 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Calculator
+on:
+  push:
+    branches: [dev, main, prod]
+  pull_request:
+    branches: [dev, main, prod]
+
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set_runners_and_environment.outputs.environment }}
+      folder1: ${{ steps.filter.outputs.folder1 }}
+      folder2: ${{ steps.filter.outputs.folder2 }}
+      folder3: ${{ steps.filter.outputs.folder3 }}
+    steps:
+      - name: Checkout current GitHub Actions workflow repository
+        uses: actions/checkout@v3
+      - name: Path Filter
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          base: ${{ github.base_ref || github.ref }}
+          filters: |
+            folder1:
+              - './folder1/**'
+            folder2:
+              - './folder2/**
+            folder2:
+              - './folder2/**
+      - name: Setup runners and Environment
+        id: set_runners_and_environment
+        run: |
+          TARGET_BRANCH=${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name}}
+          if [ "$TARGET_BRANCH" = "main" ]; then
+            ENVIRONMENT="uat"
+          else
+            ENVIRONMENT="${TARGET_BRANCH}"
+          fi
+          echo "environment=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+
+  linting:
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Linting
+        run: echo "Linting!"
+
+  testing:
+    needs: [linting]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Testing
+        run: echo "Testing!
+
+  folder1:
+    concurrency:
+      group: '${{ github.workflow }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
+    needs: [prepare, linting, testing]
+    if: ${{ needs.prepare.outputs.folder1 == 'true' }}
+    uses: ./.github/workflows/folder1.yaml
+    with:
+      environment: ${{ needs.prepare.outputs.environment }}
+    secrets: inherit
+
+  folder2:
+    concurrency:
+      group: '${{ github.workflow }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
+    needs: [prepare, testing, folder1]
+    if: ${{ needs.prepare.outputs.folder2 == 'true' && (success() || needs.testing.result == 'skipped' || (needs.testing.result == 'success' && needs.folder1.result == 'skipped'))  }}
+    uses: ./.github/workflows/folder2.yaml
+    with:
+      environment: ${{ needs.prepare.outputs.environment }}
+    secrets: inherit
+
+  folder3:
+    concurrency:
+      group: '${{ github.workflow }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
+    needs: [prepare, linting, testing]
+    if: ${{ needs.prepare.outputs.folder3 == 'true' }}
+    uses: ./.github/workflows/folder3.yaml
+    with:
+      environment: ${{ needs.prepare.outputs.environment }}
+    secrets: inherit
+    
+  folder1-prod:
+    if: ${{ github.ref_name }}
+    concurrency:
+      group: '${{ github.workflow }}-prod-${{ github.ref_name }}'
+    needs: [folder1]
+    uses: ./.github/workflows/folder1.yaml
+    with:
+      environment: prod
+    secrets: inherit
+
+  folder2-prod:
+    if: ${{ github.ref_name }}
+    concurrency:
+      group: '${{ github.workflow }}-prod-${{ github.ref_name }}'
+    needs: [folder2]
+    uses: ./.github/workflows/folder2.yaml
+    with:
+      environment: prod
+    secrets: inherit
+
+  folder3-prod:
+    if: ${{ github.ref_name }}
+    concurrency:
+      group: '${{ github.workflow }}-prod-${{ github.ref_name }}'
+    needs: [folder3]
+    uses: ./.github/workflows/folder3.yaml
+    with:
+      environment: prod
+    secrets: inherit

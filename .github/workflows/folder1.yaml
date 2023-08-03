@@ -1,0 +1,29 @@
+name: folder1 deploy
+on:
+   workflow_call:
+    inputs:
+      environment:
+        type: string
+        description: Environment to deploy to
+        required: true
+   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'ENV'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - uat
+
+
+jobs:
+  folder1_deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - id: Folder1-Deploy
+        env:
+         RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
+        run: echo "$RUNNERS"
