@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Testing
-        run: echo "Testing!
+        run: echo "Testing!"
 
   folder1:
     concurrency:
