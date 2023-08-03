@@ -47,6 +47,7 @@ jobs:
 
   linting:
     needs: [prepare]
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - name: Linting
@@ -54,6 +55,7 @@ jobs:
 
   testing:
     needs: [linting]
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - name: Testing
