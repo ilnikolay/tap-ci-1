@@ -59,7 +59,7 @@ jobs:
 
   folder1:
     concurrency:
-      group: '${{ github.workflow }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
+      group: '${{ github.job }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
     needs: [prepare, linting, testing]
     if: ${{ needs.prepare.outputs.folder1 == 'true' }}
     uses: ./.github/workflows/folder1.yaml
@@ -69,7 +69,7 @@ jobs:
 
   folder2:
     concurrency:
-      group: '${{ github.workflow }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
+      group: '${{ github.job }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
     needs: [prepare, testing, folder1]
     if: ${{ needs.prepare.outputs.folder2 == 'true' && (success() || needs.testing.result == 'skipped' || (needs.testing.result == 'success' && needs.folder1.result == 'skipped'))  }}
     uses: ./.github/workflows/folder2.yaml
@@ -79,7 +79,7 @@ jobs:
 
   folder3:
     concurrency:
-      group: '${{ github.workflow }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
+      group: '${{ github.job }}-${{ needs.prepare.outputs.environment }}-${{ github.ref_name }}'
     needs: [prepare, linting, testing]
     if: ${{ needs.prepare.outputs.folder3 == 'true' }}
     uses: ./.github/workflows/folder3.yaml
@@ -90,7 +90,7 @@ jobs:
   folder1-prod:
     if: ${{ github.ref_name }}
     concurrency:
-      group: '${{ github.workflow }}-prod-${{ github.ref_name }}'
+      group: '${{ github.job }}-prod-${{ github.ref_name }}'
     needs: [folder1]
     uses: ./.github/workflows/folder1.yaml
     with:
@@ -100,7 +100,7 @@ jobs:
   folder2-prod:
     if: ${{ github.ref_name }}
     concurrency:
-      group: '${{ github.workflow }}-prod-${{ github.ref_name }}'
+      group: '${{ github.job }}-prod-${{ github.ref_name }}'
     needs: [folder2]
     uses: ./.github/workflows/folder2.yaml
     with:
@@ -110,7 +110,7 @@ jobs:
   folder3-prod:
     if: ${{ github.ref_name }}
     concurrency:
-      group: '${{ github.workflow }}-prod-${{ github.ref_name }}'
+      group: '${{ github.job }}-prod-${{ github.ref_name }}'
     needs: [folder3]
     uses: ./.github/workflows/folder3.yaml
     with:
