@@ -62,7 +62,7 @@ jobs:
   folder1:
     needs: [prepare, linting, testing]
     if: ${{ needs.prepare.outputs.folder1 == 'true' }}
-    uses: ./.github/workflows/folder3.yaml
+    uses: ./.github/workflows/folder1.yaml
     with:
       environment: ${{ needs.prepare.outputs.environment }}
     secrets: inherit
