@@ -50,14 +50,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Linting
-        run: echo "Linting!" && exit 1
+        run: echo "Linting!"
 
   testing:
     needs: [linting]
     runs-on: ubuntu-latest
     steps:
       - name: Testing
-        run: echo "Testing!"
+        run: echo "Testing!" && exit 1
 
   folder1:
     needs: [prepare, linting, testing]
