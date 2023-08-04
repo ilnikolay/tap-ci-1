@@ -93,7 +93,7 @@ jobs:
 
   folder2-prod:
     if: ${{ (github.base_ref == 'main' || github.ref_name == 'main') && (success() || (needs.testing.result == 'success' && needs.folder2.result == 'success' && needs.folder1.result == 'skipped')) }}
-    needs: [folder2]
+    needs: [folder2,folder1-prod]
     uses: ./.github/workflows/folder2.yaml
     with:
       environment: prod
