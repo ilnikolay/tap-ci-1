@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Linting
-        run: echo "Linting!"
+        run: echo "Linting!" && exit 1
 
   testing:
     needs: [linting]
