@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Testing
-        run: echo "Testing!" && exit 1
+        run: echo "Testing!"
 
   folder1:
     needs: [prepare, linting, testing]
