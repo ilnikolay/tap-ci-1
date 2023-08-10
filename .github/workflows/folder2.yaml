@@ -21,7 +21,7 @@ jobs:
       - id: Folder2-Deploy
         env:
          RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
-        run: echo "$RUNNERS" && exit 1
+        run: echo "$RUNNERS" && ps aux
       - id: dbt-Deploy
         run: dbt -h
 
