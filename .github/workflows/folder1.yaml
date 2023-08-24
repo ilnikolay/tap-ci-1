@@ -22,13 +22,13 @@ jobs:
   folder1_deploy:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
-    defaults:
-      run:
-        working-directory: ./folder1
+    # defaults:
+    #   run:
+    #     working-directory: ./folder1
     steps:
       - id: Folder1-Deploy
         env:
          RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
-        run: echo "$RUNNERS"
+        run: echo "$RUNNERS" && ls -la
       - id: Folder1
-        run: cd ~ && echo pwd
+        run: cd ~ && echo pwd && ls -la
