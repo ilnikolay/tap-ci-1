@@ -24,7 +24,7 @@ jobs:
     environment: ${{ inputs.environment }}
     defaults:
       run:
-        working-directory: ./folder1
+        working-directory: folder1
     steps:
       - id: Folder1-Deploy
         env:
