@@ -33,4 +33,6 @@ jobs:
          RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
         run: echo "$RUNNERS" && pwd && ls -la
       - id: Folder1
-        run: cd ~ && pwd && ls -la
+        run: |
+          echo ${{ github.workspace }}
+          echo $GITHUB_WORKSPACE
