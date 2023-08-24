@@ -24,11 +24,11 @@ jobs:
     environment: ${{ inputs.environment }}
     defaults:
       run:
-        working-directory: folder1
+        working-directory: ./folder1
     steps:
       - id: Folder1-Deploy
         env:
          RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
         run: echo "$RUNNERS"
       - id: Folder1
-        run: echo pwd
+        run: cd ~ && echo pwd
