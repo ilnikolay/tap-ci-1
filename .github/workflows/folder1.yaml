@@ -29,4 +29,6 @@ jobs:
       - id: Folder1-Deploy
         env:
          RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
-        run: echo "$RUNNERS" && echo pwd
+        run: echo "$RUNNERS"
+      - id: Folder1
+        run: echo pwd
