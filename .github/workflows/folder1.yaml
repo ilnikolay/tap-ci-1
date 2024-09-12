@@ -22,8 +22,17 @@ jobs:
   folder1_deploy:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    defaults:
+      run:
+        working-directory: ./folder1
     steps:
+      - name: Checkout current GitHub Actions workflow repository
+        uses: actions/checkout@v3
       - id: Folder1-Deploy
         env:
          RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
-        run: echo "$RUNNERS"
+        run: echo "$RUNNERS" && pwd && ls -la
+      - id: Folder1
+        run: |
+          echo ${{ github.workspace }}
+          echo $GITHUB_WORKSPACE

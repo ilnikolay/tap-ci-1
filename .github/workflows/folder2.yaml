@@ -14,10 +14,14 @@ on:
 jobs:
   snowflow:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/dbt-labs/dbt-snowflake:1.6.0
     environment: ${{ inputs.environment}}
     steps:
       - id: Folder2-Deploy
         env:
          RUNNERS: ${{ format('[self-hosted, aws-{0}]', inputs.environment) }}
-        run: echo "$RUNNERS"
+        run: echo "$RUNNERS" && cat /proc/1/cgroup
+      - id: dbt-Deploy
+        run: dbt -h
 
